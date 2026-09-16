@@ -45,8 +45,8 @@ while True:
 
     for i in range(w):
         for j in range(h):
-            #frame[i, j, 1] = 0  # Green = 0
-            #frame[i, j, 0] = 0  # Blue = 0
+            #frame[i, j, 1] = 0
+            #frame[i, j, 0] = 0
             frame[i, j, 2] = 0
 
     cv2.imshow("Webcam Filter", frame)
