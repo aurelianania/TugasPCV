@@ -1,1 +1,58 @@
+// IMAGE FILTERING
+import cv2
+import numpy as np
 
+img = cv2.imread('catpic.jpg')
+
+if img is None:
+    print("Error: Gambar tidak ditemukan. Cek nama file/path!")
+    exit()
+
+h, w, _ = img.shape
+zeros = np.zeros((h, w), dtype="uint8")
+
+b, g, r = cv2.split(img)
+
+only_blue  = cv2.merge([b, zeros, zeros])
+only_green = cv2.merge([zeros, g, zeros])
+only_red   = cv2.merge([zeros, zeros, r])
+
+cv2.imshow('1. Original BGR', img)
+cv2.imshow('2. Only Red', only_red)
+cv2.imshow('3. Only Green', only_green)
+cv2.imshow('4. Only Blue', only_blue)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+========================================================================================================================================
+
+
+// VIDEO FILTERING
+import cv2
+
+cap = cv2.VideoCapture(0)
+
+while True:
+    ret, frame = cap.read()
+
+    if not ret:
+        print("Gagal membaca webcam")
+        break
+
+    (w, h, c) = frame.shape
+
+    for i in range(w):
+        for j in range(h):
+            #frame[i, j, 1] = 0  # Green = 0
+            #frame[i, j, 0] = 0  # Blue = 0
+            frame[i, j, 2] = 0
+
+    cv2.imshow("Webcam Filter", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
