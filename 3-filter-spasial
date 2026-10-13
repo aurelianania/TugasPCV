@@ -1,0 +1,35 @@
+import cv2
+import numpy as np
+
+def main():
+    path_gambar = 'D:/PCV/TUGAS/3-filter-spasial/catpic.jpg'
+    
+    img = cv2.imread(path_gambar, cv2.IMREAD_GRAYSCALE)
+    
+    if img is None:
+        print(f"GAGAL: Gambar tidak ditemukan di path: {path_gambar}")
+        print("Coba cek apakah nama file atau formatnya benar (misal: .jpg atau .png)")
+        return
+    else:
+        print("SUKSES: Gambar berhasil dimuat!")
+
+    kernel_mean = np.ones((3, 3), dtype=np.float32) / 9.0
+    kernel_sharpen = np.array([[ 0, -1,  0],
+                               [-1,  5, -1],
+                               [ 0, -1,  0]], dtype=np.float32)
+
+    img_mean = cv2.filter2D(img, -1, kernel_mean)
+    img_sharpen = cv2.filter2D(img, -1, kernel_sharpen)
+    img_median = cv2.medianBlur(img, 3)
+
+    cv2.imshow('Citra Asli', img)
+    cv2.imshow('Filter Spasial: Mean (Smoothing)', img_mean)
+    cv2.imshow('Filter Spasial: Sharpening', img_sharpen)
+    cv2.imshow('Filter Spasial: Median Blur', img_median)
+
+    print("Tekan tombol apa saja pada keyboard di dalam jendela gambar untuk menutup...")
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    main()
